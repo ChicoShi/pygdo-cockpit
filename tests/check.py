@@ -25,4 +25,4 @@ assert site.gdo_trigger()=='' and site().gdo_connectors()=='web'
 assert status.gdo_trigger()=='cockpit.status'
 print('PASS: snapshot, escaping, permission declarations, shared web/chat, disabled/enabled adapter. No live authentication tested.')
 if '--preview' in sys.argv:
- Path('/tmp/cockpit-preview.html').write_text('<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1">'+CockpitView('result').with_snapshot(snapshot()).render_html())
+ Path('/tmp/cockpit-preview.html').write_text('<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+CockpitView('result').with_snapshot(snapshot()).render_html())
