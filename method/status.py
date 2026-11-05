@@ -1,4 +1,5 @@
 from gdo.base.Method import Method
+from gdo.base.Trans import t
 from gdo.core.GDT_String import GDT_String
 from gdo.cockpit.status_model import snapshot
 from gdo.cockpit.view import CockpitView
@@ -12,5 +13,5 @@ class status(Method):
     def gdo_transactional(self): return False
     def gdo_execute(self):
         if not self.gdo_module().get_config_value('cockpit_enabled'):
-            return GDT_String('result').val('Cockpit ist deaktiviert.')
+            return GDT_String('result').val(t('cp_disabled'))
         return CockpitView('result').with_snapshot(snapshot())

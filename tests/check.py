@@ -11,6 +11,9 @@ from gdo.cockpit.status_model import snapshot
 from gdo.cockpit.view import CockpitView
 from gdo.cockpit.method.status import status
 from gdo.cockpit.method.site import site
+from gdo.base.Trans import Trans, t
+for langfile in (p/'lang').glob('*.toml'): Trans._load_file(str(langfile))
+Application.set_lang_iso('de')
 v=snapshot();assert set(v)=={'observed_at','load_1m','scope','connectors','agents','actions'}
 v['scope']='<script>alert(1)</script>'
 html=CockpitView('result').with_snapshot(v).render_html();assert '<script>' not in html and '&lt;script&gt;' in html
@@ -26,3 +29,12 @@ assert status.gdo_trigger()=='cockpit.status'
 print('PASS: snapshot, escaping, permission declarations, shared web/chat, disabled/enabled adapter. No live authentication tested.')
 if '--preview' in sys.argv:
  Path('/tmp/cockpit-preview.html').write_text('<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+CockpitView('result').with_snapshot(snapshot()).render_html())
+
+for iso, heading, disabled in [("en", "Together at a glance.", "Cockpit is disabled."), ("de", "Gemeinsam im Blick.", "Cockpit ist deaktiviert.")]:
+ with Trans(iso):
+  assert heading in CockpitView("result").with_snapshot(snapshot()).render_html()
+  assert t("mt_cockpit_site") != "mt_cockpit_site"
+  with patch.object(status, "gdo_module") as mod:
+   mod.return_value.get_config_value.return_value=False
+   assert status().gdo_execute().get_val() == disabled
+print("PASS: German/English titles, view, status and disabled message")
