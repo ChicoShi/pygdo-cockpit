@@ -37,3 +37,6 @@ Aufgaben-/Ergebnisansicht; vorhandene 3D-Assets unter ihren Lizenzen übernehmen
 ## Prüfung
 `PYTHONPATH=/pfad/zu/pygdo python3 tests/check.py`
 Prüft Datenmodell, Escaping, gemeinsame Berechtigungsdeklaration, deaktivierten/aktivierten Adapter mit gemockter Modulkonfiguration. Kein echter Login-/DB-Nachweis.
+
+## Verbindlicher Zielumfang (5440/5441)
+`pygdo-cockpit` wird ausschließlich als GDO-Website-Modul weiterentwickelt. Kein eigener HTTP-Server und keine zweite eigenständige Cockpit-Anwendung. Der exportierte agent-console-Code ist Referenz für die schrittweise Portierung, kein alternatives Zielprodukt. `cockpit.site.html` ist der Web-Einstieg; gemeinsame Methoden vermeiden doppelte Fachlogik. Simion/Team Chico betreut Implementierung, Tests und Fehlerbehebung dauerhaft im Projekt; Gizmore testet auf seinem Host, Team Mogwai betreut die Core-Provider-Registrierung.
